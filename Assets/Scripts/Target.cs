@@ -3,6 +3,7 @@ using UnityEngine;
 public class Target : MonoBehaviour
 {
     private Rigidbody targetBody;
+    private GameManager gameManager_Script;
 
     private float minSpeed = 12f;
     private float maxSpeed = 16f;
@@ -10,9 +11,14 @@ public class Target : MonoBehaviour
     private float xRange = 4f;
     private float ySpawnPos = -3f;
 
+    public ParticleSystem[] explosionParticle;
+    public int pointValue;
+
     private void Awake()
     {
         targetBody = GetComponent<Rigidbody>();
+        gameManager_Script = FindObjectOfType<GameManager>();
+
         transform.position = RandomSpawnPos();
     }
 
@@ -26,6 +32,9 @@ public class Target : MonoBehaviour
     void OnMouseDown()
     {
         Destroy(gameObject);
+        int randomColor = Random.Range(0, explosionParticle.Length); 
+        Instantiate(explosionParticle[randomColor], transform.position, explosionParticle[randomColor].transform.rotation);
+        gameManager_Script.UpdateScore(pointValue);
     }
 
     Vector3 RandomSpawnPos()
