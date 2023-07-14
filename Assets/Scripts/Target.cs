@@ -31,10 +31,13 @@ public class Target : MonoBehaviour
     
     void OnMouseDown()
     {
-        Destroy(gameObject);
-        int randomColor = Random.Range(0, explosionParticle.Length); 
-        Instantiate(explosionParticle[randomColor], transform.position, explosionParticle[randomColor].transform.rotation);
-        gameManager_Script.UpdateScore(pointValue);
+        if(gameManager_Script.isGameActive)
+        {
+            Destroy(gameObject);
+            int randomColor = Random.Range(0, explosionParticle.Length); 
+            Instantiate(explosionParticle[randomColor], transform.position, explosionParticle[randomColor].transform.rotation);
+            gameManager_Script.UpdateScore(pointValue);
+        }
     }
 
     Vector3 RandomSpawnPos()
@@ -55,5 +58,9 @@ public class Target : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Destroy(gameObject);
+        if(!gameObject.CompareTag(NameManager.BAD_TAG))
+        {
+            gameManager_Script.GameOver();
+        }
     }
 }
