@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Target : MonoBehaviour
 {
+
     private Rigidbody targetBody;
     private GameManager gameManager_Script;
 
@@ -28,13 +29,19 @@ public class Target : MonoBehaviour
 
         targetBody.AddTorque(RandomTorque(), RandomTorque(), RandomTorque(), ForceMode.Impulse);
     }
-    
-    void OnMouseDown()
+
+    void OnMouseOver()
     {
-        if(gameManager_Script.isGameActive && (Time.timeScale == 1f))
+        if (gameManager_Script.isGameActive && (Time.timeScale == 1f) && Input.GetMouseButton(0))
         {
+            if(gameObject.CompareTag(NameManager.BAD_TAG))
+            {
+                gameManager_Script.LivesText.text = "Lives: " + (--gameManager_Script.game_Lives).ToString("00");
+                if (gameManager_Script.game_Lives == 0)
+                    gameManager_Script.GameOver();
+            }
             Destroy(gameObject);
-            int randomColor = Random.Range(0, explosionParticle.Length); 
+            int randomColor = Random.Range(0, explosionParticle.Length);
             Instantiate(explosionParticle[randomColor], transform.position, explosionParticle[randomColor].transform.rotation);
             gameManager_Script.UpdateScore(pointValue);
         }
@@ -58,12 +65,12 @@ public class Target : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Destroy(gameObject);
-        if(!gameObject.CompareTag(NameManager.BAD_TAG) && (gameManager_Script.game_Lives > 0))
+        if (!gameObject.CompareTag(NameManager.BAD_TAG) && (gameManager_Script.game_Lives > 0))
         {
-            ;
-            gameManager_Script.LivesText.text ="Lives: " + (--gameManager_Script.game_Lives).ToString("00");
+            gameManager_Script.LivesText.text = "Lives: " + (--gameManager_Script.game_Lives).ToString("00");
             if (gameManager_Script.game_Lives == 0)
                 gameManager_Script.GameOver();
         }
     }
+
 }

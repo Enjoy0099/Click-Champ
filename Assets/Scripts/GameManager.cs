@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI LivesText;
     public GameObject titleScreen;
     public GameObject pauseScreen;
+    public GameObject exitButton;
 
     private int score;
     private float spawnRate = 1f;
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour
         isGameActive = true;
 
         LivesText.text = "Lives: " + game_Lives.ToString("00");
+        exitButton.SetActive(false);
     }
 
     IEnumerator SpawnTarget()
@@ -67,9 +69,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-
-
-
     private void Update()
     {
         bg_Music.volume = volume_Slider.value;
@@ -88,6 +87,12 @@ public class GameManager : MonoBehaviour
                 pauseScreen.SetActive(true);
             }
         }
+    }
+
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 
 }
