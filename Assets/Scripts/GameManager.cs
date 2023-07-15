@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public List<GameObject> targets;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI gameOverText;
+    public TextMeshProUGUI LivesText;
     public GameObject titleScreen;
 
     private int score;
     private float spawnRate = 1f;
     public bool isGameActive;
+
+    public Slider volume_Slider;
+    public AudioSource bg_Music;
+
+    [HideInInspector]public int game_Lives = 3;
 
     [HideInInspector]public int score_Difficulty;
     public void StartGame(int difficulty)
@@ -26,6 +33,8 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(SpawnTarget());
         isGameActive = true;
+
+        LivesText.text = "Lives: " + game_Lives.ToString("00");
     }
 
     IEnumerator SpawnTarget()
@@ -55,6 +64,14 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+
+
+
+    private void Update()
+    {
+        bg_Music.volume = volume_Slider.value;
     }
 
 }
