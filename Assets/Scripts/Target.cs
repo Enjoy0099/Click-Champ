@@ -31,7 +31,7 @@ public class Target : MonoBehaviour
     
     void OnMouseDown()
     {
-        if(gameManager_Script.isGameActive)
+        if(gameManager_Script.isGameActive && (Time.timeScale == 1f))
         {
             Destroy(gameObject);
             int randomColor = Random.Range(0, explosionParticle.Length); 

@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI gameOverText;
     public TextMeshProUGUI LivesText;
     public GameObject titleScreen;
+    public GameObject pauseScreen;
 
     private int score;
     private float spawnRate = 1f;
@@ -72,6 +73,21 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         bg_Music.volume = volume_Slider.value;
+
+        if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (Time.timeScale == 0)
+            {
+                Time.timeScale = 1;
+                pauseScreen.SetActive(false);
+            }
+                
+            else
+            {
+                Time.timeScale = 0;
+                pauseScreen.SetActive(true);
+            }
+        }
     }
 
 }
